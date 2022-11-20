@@ -12,6 +12,7 @@ body {
 
 .grid .header {
   flex: 1;
+  min-width: 4.5em;
   max-width: 4.5em;
   color: #eee;
   border-style: solid;
@@ -25,6 +26,7 @@ body {
   flex: 1;
   max-width: 1.5em;
   max-height: 5em;
+  min-width: 1.5em;
   text-align: left;
   color: #eee;
   border-style: solid;
@@ -36,6 +38,7 @@ body {
 
 .grid .col {
   flex: 1;
+  min-width: 1.5em;
   max-width: 1.5em;
   color: #eee;
   text-align: center;

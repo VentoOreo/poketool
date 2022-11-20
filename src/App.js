@@ -60,7 +60,7 @@ function App() {
     <div className="App">
       <div className="grid">
         <div className="grid" style={{flexDirection:"column"}} key="AttDef">
-          <div className="header" style={{borderStyle:"none", alignSelf:"flex-start", paddingBottom:"20px", paddingLeft:"4px"}} key="Defender">Defender</div>
+          <div className="header" style={{borderStyle:"none", alignSelf:"flex-start", paddingBottom:"20px", paddingLeft:"2px"}} key="Defender">Defender</div>
           <div className="header" style={{textAlign:"left", borderStyle:"none"}} key="Attacker">Attacker</div>
         </div>
         {types.map((val) => {
