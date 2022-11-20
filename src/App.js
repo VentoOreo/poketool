@@ -2,50 +2,50 @@ import './App.css';
 
 function App() {
 
-  function Type({name='default', color="green", normal="1x", fire="1x", water="1x", grass="1x", electric="1x", ice="1x", fighting="1x", 
-  poison="1x", ground="1x", flying="1x", psychic="1x", bug="1x", rock="1x", ghost="1x", dragon="1x", dark="1x", steel="1x", fairy="1x"} = {}) {
+  function Type({name='default', color="green", normal="1", fire="1", water="1", grass="1", electric="1", ice="1", fighting="1", 
+  poison="1", ground="1", flying="1", psychic="1", bug="1", rock="1", ghost="1", dragon="1", dark="1", steel="1", fairy="1"} = {}) {
     this.name = name;
     this.color = color;
     this.toList = [normal, fire, water, grass, electric, ice, fighting, poison, ground, flying, psychic, bug, rock, ghost, dragon, dark, steel, fairy];
   }
 
-  const normalType = new Type({name:'Normal', color: "DarkKhaki", rock:"0.5x", ghost:"0x", steel:"0.5x"});
-  const fireType = new Type({name:'Fire', color:"Orange", fire:"0.5x", water:"0.5x", grass:"2x", ice:"2x", bug:"2x", rock:"0.5x", dragon:"0.5x", steel:"2x"});
-  const waterType = new Type({name:'Water', color:"Blue", fire:"2x", water:"0.5x", grass:"0.5x", ground:"2x", rock:"2x", dragon:"0.5x"});
-  const grassType = new Type({name:'Grass', color:"LimeGreen", fire:"0.5x", water:"2x", grass:"0.5x", poison:"0.5x", ground:"2x", flying:"0.5x", bug:"0.5x", rock:"2x", dragon:"0.5x", steel:"0.5x"})
-  const elecType = new Type({name:'Electric', color:'Gold', water:"2x", grass:"0.5x", electric:"0.5x", ground:"0x", flying:"2x", dragon:"0.5x"});
-  const iceType = new Type({name:'Ice', color:'LightBlue', fire:"0.5x", water:"0.5x", grass:"2x", ice:"0.5x", ground:"2x", flying:"2x", dragon:"2x", steel:"0.5x"});
-  const fightType = new Type({name:'Fighting', color:'Tomato', normal:"2x", ice:"2x", poison:"0.5x", flying:"0.5x", psychic:"0.5x", bug:"0.5x", rock:"2x", ghost:"0x", dark:"2x", steel:"2x", fairy:"0.5x"});
-  const poisType = new Type({name:'Poison', color:'RebeccaPurple', grass:"2x", poison:"0.5x", ground:"0.5x", rock:"0.5x", ghost:"0.5x", steel:"0x", fairy:"2x"});
-  const groundType = new Type({name:'Ground', color:'GoldenRod', fire:"2x", grass:"0.5x", electric:"2x", poison:"2x", flying:"0x", bug:"0.5x", rock:"2x", steel:"2x"});
-  const flyType = new Type({name:'Flying', color:'Plum', grass:"2x", electric:"0.5x", fighting:"2x", bug:"2x", rock:"0.5x", steel:"0.5x"});
-  const psyType = new Type({name:'Psychic', color:'PaleVioletRed', fighting:"2x", poison:"2x", psychic:"0.5x", dark:"0x", steel:"0.5x"});
-  const bugType = new Type({name:'Bug', color:'OliveDrab', fire:"0.5x", grass:"2x", fighting:"0.5x", poison:"0.5x", flying:"0.5x", psychic:"2x", ghost:"0.5x", dark:"2x", steel:"0.5x", fairy:"0.5x"});
-  const rockType = new Type({name:'Rock', color:'Tan', fire:"2x", ice:"2x", fighting:"0.5x", ground:"0.5x", flying:"2x", bug:"2x", steel:"0.5x"});
-  const ghostType = new Type({name:'Ghost', color:'MediumPurple', normal:"0x", psychic:"2x", ghost:"2x", dark:"0.5x"});
-  const dragonType = new Type({name:'Dragon', color:'MediumOrchid', dragon:"2x", steel:"0.5x", fairy:"0x"});
-  const darkType = new Type({name:'Dark', color:'DarkSlateGray', fighting:"0.5x", psychic:"2x", ghost:"2x", dark:"0.5x", fairy:"0.5x"});
-  const steelType = new Type({name:'Steel', color:'DarkGray', fire:"0.5x", water:"0.5x", electric:"0.5x", ice:"2x", rock:"2x", steel:"0.5x", fairy:"2x"});
-  const fairyType = new Type({name:'Fairy', color:'LightPink', fire:"0.5x", fighting:"2x", poison:"0.5x", dragon:"2x", dark:"2x", steel:"0.5x"});
+  const normalType = new Type({name:'Normal', color: "DarkKhaki", rock:"½", ghost:"0", steel:"½"});
+  const fireType = new Type({name:'Fire', color:"Orange", fire:"½", water:"½", grass:"2", ice:"2", bug:"2", rock:"½", dragon:"½", steel:"2"});
+  const waterType = new Type({name:'Water', color:"Blue", fire:"2", water:"½", grass:"½", ground:"2", rock:"2", dragon:"½"});
+  const grassType = new Type({name:'Grass', color:"LimeGreen", fire:"½", water:"2", grass:"½", poison:"½", ground:"2", flying:"½", bug:"½", rock:"2", dragon:"½", steel:"½"})
+  const elecType = new Type({name:'Electric', color:'Gold', water:"2", grass:"½", electric:"½", ground:"0", flying:"2", dragon:"½"});
+  const iceType = new Type({name:'Ice', color:'LightBlue', fire:"½", water:"½", grass:"2", ice:"½", ground:"2", flying:"2", dragon:"2", steel:"½"});
+  const fightType = new Type({name:'Fighting', color:'Tomato', normal:"2", ice:"2", poison:"½", flying:"½", psychic:"½", bug:"½", rock:"2", ghost:"0", dark:"2", steel:"2", fairy:"½"});
+  const poisType = new Type({name:'Poison', color:'RebeccaPurple', grass:"2", poison:"½", ground:"½", rock:"½", ghost:"½", steel:"0", fairy:"2"});
+  const groundType = new Type({name:'Ground', color:'GoldenRod', fire:"2", grass:"½", electric:"2", poison:"2", flying:"0", bug:"½", rock:"2", steel:"2"});
+  const flyType = new Type({name:'Flying', color:'Plum', grass:"2", electric:"½", fighting:"2", bug:"2", rock:"½", steel:"½"});
+  const psyType = new Type({name:'Psychic', color:'PaleVioletRed', fighting:"2", poison:"2", psychic:"½", dark:"0", steel:"½"});
+  const bugType = new Type({name:'Bug', color:'OliveDrab', fire:"½", grass:"2", fighting:"½", poison:"½", flying:"½", psychic:"2", ghost:"½", dark:"2", steel:"½", fairy:"½"});
+  const rockType = new Type({name:'Rock', color:'Tan', fire:"2", ice:"2", fighting:"½", ground:"½", flying:"2", bug:"2", steel:"½"});
+  const ghostType = new Type({name:'Ghost', color:'MediumPurple', normal:"0", psychic:"2", ghost:"2", dark:"½"});
+  const dragonType = new Type({name:'Dragon', color:'MediumOrchid', dragon:"2", steel:"½", fairy:"0"});
+  const darkType = new Type({name:'Dark', color:'DarkSlateGray', fighting:"½", psychic:"2", ghost:"2", dark:"½", fairy:"½"});
+  const steelType = new Type({name:'Steel', color:'DarkGray', fire:"½", water:"½", electric:"½", ice:"2", rock:"2", steel:"½", fairy:"2"});
+  const fairyType = new Type({name:'Fairy', color:'LightPink', fire:"½", fighting:"2", poison:"½", dragon:"2", dark:"2", steel:"½"});
 
   const types = [normalType, fireType, waterType, grassType, elecType, iceType, fightType, poisType, groundType, flyType, psyType, bugType, rockType, ghostType, dragonType, darkType, steelType, fairyType];
 
-  const EFF_COLORS = {"0.25x":"OrangeRed", "0.5x":"Red", "0x":"Black", "1x":"Gray", "2x":"Green", "4x":"CornflowerBlue"};
+  const EFF_COLORS = {"¼":"OrangeRed", "½":"Red", "0":"Black", "1":"Gray", "2":"Green", "4":"CornflowerBlue"};
   const TYPE_LOOKUP = ["Normal", "Fire", "Water", "Grass", "Electric", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"]
-  const DUAL_LOOKUP = {"0.5x":{"0.5x":"0.25x", "0x":"0x", "1x":"0.5x", "2x":"1x"}, "0x":{"0.5x":"0x", "0x":"0x", "1x":"0x", "2x":"0x"}, "1x":{"0.5x":"0.5x", "0x":"0x", "1x":"1x", "2x":"2x"}, "2x":{"0.5x":"1x", "0x":"0x", "1x":"2x", "2x":"4x"}};
+  const DUAL_LOOKUP = {"½":{"½":"¼", "0":"0", "1":"½", "2":"1"}, "0":{"½":"0", "0":"0", "1":"0", "2":"0"}, "1":{"½":"½", "0":"0", "1":"1", "2":"2"}, "2":{"½":"1", "0":"0", "1":"2", "2":"4"}};
 
   function GetMatchups(typeA, typeB=false) {
-    let output = {"0.25x":[], "0.5x":[], "0x":[], "2x":[], "4x":[]};
+    let output = {"¼":[], "½":[], "0":[], "2":[], "4":[]};
     let typeAIndex = TYPE_LOOKUP.indexOf(typeA.name);
     if (typeB){
       let typeBIndex = TYPE_LOOKUP.indexOf(typeB.name);
       for (let i=0; i<TYPE_LOOKUP.length; i++){
        let temp = DUAL_LOOKUP[types[i].toList[typeAIndex]][types[i].toList[typeBIndex]];
-       if (temp !== "1x") output[temp].push(TYPE_LOOKUP[i]);
+       if (temp !== "1") output[temp].push(TYPE_LOOKUP[i]);
       }
     } else {
       for (let i=0; i<TYPE_LOOKUP.length; i++){
-        if (types[i].toList[typeAIndex] !== "1x"){
+        if (types[i].toList[typeAIndex] !== "1"){
           output[types[i].toList[typeAIndex]].push(TYPE_LOOKUP[i]);
         }
       }
@@ -64,7 +64,7 @@ function App() {
           <div className="header" style={{textAlign:"left", borderStyle:"none"}}>Attacker</div>
         </div>
         {types.map((val) => {
-          return(<div className="altheader" style={{background:val.color, writingMode:'vertical-lr', textOrientation:'mixed', transform:'scale(-1)'}}>{val.name}</div>)
+          return(<div className="altheader" style={{background:val.color, writingMode:'vertical-lr', textOrientation:'mixed', transform:'scale(-1)'}}><div style={{paddingTop:"2px"}}>{val.name}</div></div>)
         })}
       </div>
       {types.map((val, key) => {
