@@ -60,8 +60,8 @@ function App() {
     <div className="App">
       <div className="grid">
         <div className="grid" style={{flexDirection:"column"}}>
-          <div className="header" style={{color:"Black", borderStyle:"none", alignSelf:"flex-start", paddingBottom:"20px", paddingLeft:"4px"}}>Defender</div>
-          <div className="header" style={{color:"Black", textAlign:"left", borderStyle:"none"}}>Attacker</div>
+          <div className="header" style={{borderStyle:"none", alignSelf:"flex-start", paddingBottom:"20px", paddingLeft:"4px"}}>Defender</div>
+          <div className="header" style={{textAlign:"left", borderStyle:"none"}}>Attacker</div>
         </div>
         {types.map((val) => {
           return(<div className="altheader" style={{background:val.color, writingMode:'vertical-lr', textOrientation:'mixed', transform:'scale(-1)'}}>{val.name}</div>)

@@ -1,3 +1,7 @@
+body {
+  background-color: #121212;
+}
+
 .App {
   text-align: right;
 }
@@ -9,7 +13,7 @@
 .grid .header {
   flex: 1;
   max-width: 4.5em;
-  color: white;
+  color: #eee;
   border-style: solid;
   border-width: 1px;
   border-color: black;
@@ -22,7 +26,7 @@
   max-width: 2.5em;
   max-height: 5em;
   text-align: left;
-  color: white;
+  color: #eee;
   border-style: solid;
   border-width: 1px;
   border-color: black;
@@ -33,7 +37,7 @@
 .grid .col {
   flex: 1;
   max-width: 2.5em;
-  color: white;
+  color: #eee;
   text-align: center;
   border-style: solid;
   border-width: 1px;
