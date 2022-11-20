@@ -59,20 +59,20 @@ function App() {
   return (
     <div className="App">
       <div className="grid">
-        <div className="grid" style={{flexDirection:"column"}}>
-          <div className="header" style={{borderStyle:"none", alignSelf:"flex-start", paddingBottom:"20px", paddingLeft:"4px"}}>Defender</div>
-          <div className="header" style={{textAlign:"left", borderStyle:"none"}}>Attacker</div>
+        <div className="grid" style={{flexDirection:"column"}} key="AttDef">
+          <div className="header" style={{borderStyle:"none", alignSelf:"flex-start", paddingBottom:"20px", paddingLeft:"4px"}} key="Defender">Defender</div>
+          <div className="header" style={{textAlign:"left", borderStyle:"none"}} key="Attacker">Attacker</div>
         </div>
         {types.map((val) => {
-          return(<div className="altheader" style={{background:val.color, writingMode:'vertical-lr', textOrientation:'mixed', transform:'scale(-1)'}}><div style={{paddingTop:"2px"}}>{val.name}</div></div>)
+          return(<div className="altheader" style={{background:val.color, writingMode:'vertical-lr', textOrientation:'mixed', transform:'scale(-1)'}} key={[val.name, 'Inverted'].join(' ')}><div style={{paddingTop:"2px"}}>{val.name}</div></div>)
         })}
       </div>
-      {types.map((val, key) => {
-        return(<div className="grid" key={key}>
-          <div className="header" style={{background:val.color}}>{val.name}</div>
-          {val.toList.map((nVal) => {
+      {types.map((val) => {
+        return(<div className="grid" key={val.name}>
+          <div className="header" style={{background:val.color}} key={[val.name, 'row'].join(' ')}>{val.name}</div>
+          {Object.keys(val.toList).map((nVal) => {
             return(
-              <div className="col" style={{background:EFF_COLORS[nVal]}}>{nVal}</div>
+              <div className="col" style={{background:EFF_COLORS[val.toList[nVal]]}} key={[val.name,nVal].join('')}>{val.toList[nVal]}</div>
             )
           })}
         </div>)
