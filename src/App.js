@@ -1,4 +1,5 @@
 import './App.css';
+import { useState } from 'react';
 
 function App() {
 
@@ -34,7 +35,7 @@ function App() {
   const TYPE_LOOKUP = ["Normal", "Fire", "Water", "Grass", "Electric", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"]
   const DUAL_LOOKUP = {"½":{"½":"¼", "0":"0", "1":"½", "2":"1"}, "0":{"½":"0", "0":"0", "1":"0", "2":"0"}, "1":{"½":"½", "0":"0", "1":"1", "2":"2"}, "2":{"½":"1", "0":"0", "1":"2", "2":"4"}};
 
-  function GetMatchups(typeA, typeB=false) {
+  function GetMatchups([typeA, typeB=false]) {
     let output = {"¼":[], "½":[], "0":[], "2":[], "4":[]};
     let typeAIndex = TYPE_LOOKUP.indexOf(typeA.name);
     if (typeB){
@@ -53,8 +54,25 @@ function App() {
     return output;
   }
 
-  console.log("Dragon and Steel matchups:");
-  console.log(GetMatchups(steelType, dragonType));
+  //console.log("Dragon and Steel matchups:");
+  //console.log(GetMatchups(steelType, dragonType));
+
+  const [curTypes, setTypes] = useState([]);
+
+  const handleChartClick = (event, name) => {
+    //console.log(name);
+    let clickedType = types[TYPE_LOOKUP.indexOf(name)];
+    if (curTypes.length == 0) setTypes([clickedType]);
+    else if (curTypes.length == 1 && curTypes[0].name !== name) setTypes([curTypes[0], clickedType]);
+    else if (curTypes[0].name !== name && curTypes[1].name !== name) setTypes([curTypes[1], clickedType]);
+  }
+
+  const handleDualClick = (event, type) => {
+    if (curTypes.length > 1){
+      let clickedType = curTypes.indexOf(type);
+      setTypes([curTypes[clickedType == 0 ? 1 : 0]]);
+    } else setTypes([]);
+  }
 
   return (
     <div className="App">
@@ -64,12 +82,12 @@ function App() {
           <div className="header" style={{textAlign:"left", borderStyle:"none"}} key="Attacker">Attacker</div>
         </div>
         {types.map((val) => {
-          return(<div className="altheader" style={{background:val.color, writingMode:'vertical-lr', textOrientation:'mixed', transform:'scale(-1)'}} key={[val.name, 'Inverted'].join(' ')}><div style={{paddingTop:"2px"}}>{val.name}</div></div>)
+          return(<div className="altheader" style={{background:val.color, writingMode:'vertical-lr', textOrientation:'mixed', transform:'scale(-1)'}} key={[val.name, 'Inverted'].join(' ')} onClick={((e) => handleChartClick(e, val.name))}><div style={{paddingTop:"2px"}}>{val.name}</div></div>)
         })}
       </div>
       {types.map((val) => {
         return(<div className="grid" key={val.name}>
-          <div className="header" style={{background:val.color}} key={[val.name, 'row'].join(' ')}><div style={{paddingRight:"2px"}}>{val.name}</div></div>
+          <div className="header" style={{background:val.color}} key={val.name} onClick={((e) => handleChartClick(e, val.name))}><div style={{paddingRight:"2px"}}>{val.name}</div></div>
           {Object.keys(val.toList).map((nVal) => {
             return(
               <div className="col" style={{background:EFF_COLORS[val.toList[nVal]]}} key={[val.name,nVal].join('')}>{val.toList[nVal]}</div>
@@ -77,6 +95,22 @@ function App() {
           })}
         </div>)
       })}
+      <div className="grid">{curTypes.map((type) => {
+          return(<div className="header" style={{backgroundColor:type.color}} key={[type.name, 'bot'].join(' ')} onClick={((e)=>handleDualClick(e, type))}>{type.name}</div>);
+        }
+      )}</div>
+      <div className="grid" style={{flexDirection:"column"}}>
+        {curTypes.length > 0 ? Object.keys(GetMatchups(curTypes)).map(matchKey => {
+          if (GetMatchups(curTypes)[matchKey].length > 0) 
+          return(
+          <div className="grid">
+            <div className="header" style={{background:EFF_COLORS[matchKey]}}>{matchKey}</div>
+            {GetMatchups(curTypes)[matchKey].map(tempType => {
+              return <div className="header" style={{background:types[TYPE_LOOKUP.indexOf(tempType)].color}}>{tempType}</div>
+            })}
+          </div>)
+        }) : <div></div>}
+      </div>
     </div>
   );
 }
