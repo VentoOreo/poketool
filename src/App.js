@@ -69,7 +69,7 @@ function App() {
       </div>
       {types.map((val) => {
         return(<div className="grid" key={val.name}>
-          <div className="header" style={{background:val.color}} key={[val.name, 'row'].join(' ')}>{val.name}</div>
+          <div className="header" style={{background:val.color}} key={[val.name, 'row'].join(' ')}><div style={{paddingRight:"2px"}}>{val.name}</div></div>
           {Object.keys(val.toList).map((nVal) => {
             return(
               <div className="col" style={{background:EFF_COLORS[val.toList[nVal]]}} key={[val.name,nVal].join('')}>{val.toList[nVal]}</div>
