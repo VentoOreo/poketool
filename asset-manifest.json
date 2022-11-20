@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/poketool/static/css/main.dd0a0151.css",
+    "main.js": "/poketool/static/js/main.9704409d.js",
+    "static/js/787.6834fe84.chunk.js": "/poketool/static/js/787.6834fe84.chunk.js",
+    "index.html": "/poketool/index.html",
+    "main.dd0a0151.css.map": "/poketool/static/css/main.dd0a0151.css.map",
+    "main.9704409d.js.map": "/poketool/static/js/main.9704409d.js.map",
+    "787.6834fe84.chunk.js.map": "/poketool/static/js/787.6834fe84.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dd0a0151.css",
+    "static/js/main.9704409d.js"
+  ]
+}
