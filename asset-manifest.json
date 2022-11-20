@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/poketool/static/css/main.2007d1a6.css",
-    "main.js": "/poketool/static/js/main.d4061bee.js",
+    "main.css": "/poketool/static/css/main.d900824a.css",
+    "main.js": "/poketool/static/js/main.a2c0416f.js",
     "static/js/787.6834fe84.chunk.js": "/poketool/static/js/787.6834fe84.chunk.js",
     "index.html": "/poketool/index.html",
-    "main.2007d1a6.css.map": "/poketool/static/css/main.2007d1a6.css.map",
-    "main.d4061bee.js.map": "/poketool/static/js/main.d4061bee.js.map",
+    "main.d900824a.css.map": "/poketool/static/css/main.d900824a.css.map",
+    "main.a2c0416f.js.map": "/poketool/static/js/main.a2c0416f.js.map",
     "787.6834fe84.chunk.js.map": "/poketool/static/js/787.6834fe84.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.2007d1a6.css",
-    "static/js/main.d4061bee.js"
+    "static/css/main.d900824a.css",
+    "static/js/main.a2c0416f.js"
   ]
 }
