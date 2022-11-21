@@ -46,13 +46,12 @@ function App() {
     }
 
     function ChartRow(props){
-    return(
-        <Row header={props.header} iterable = {props.typing.toList} colClass="col"
-            getBg={(nVal) => {return (EFF_COLORS[props.typing.toList[nVal]])}}
-            key={props.key} rowKey={[props.key, 'inner'].join(' ')}
-            getValue={(nVal) => {return (props.typing.toList[nVal])}}
-        />
-    );
+        return(
+            <Row iterable = {props.typing.toList} colClass="col" getBg={(nVal) => {return (EFF_COLORS[props.typing.toList[nVal]])}}
+                key={props.key} rowKey={[props.key, 'inner'].join(' ')} getValue={(nVal) => {return (props.typing.toList[nVal])}}>
+                    {props.children}
+            </Row>
+        );
     }
 
     function ClickableHeader(props){
@@ -74,9 +73,9 @@ function App() {
                     })}
                 </div>
                 {types.map((val) => {
-                    return (<ChartRow typing = {val} header={
+                    return (<ChartRow typing = {val}>
                         <ClickableHeader innerClass="header clickable" style={{background:val.color}} key={[val.name, 'side'].join(' ')} typeName={val.name} innerStyle={{paddingRight:"2px"}} innerOnClick={((e) => handleChartClick(e, val.name))}/>
-                    }/>)
+                    </ChartRow>)
                 })}
             </div>
         );
@@ -98,10 +97,10 @@ function App() {
             if (GetMatchups(curTypes)[matchKey].length > 0) 
                 return(
                     <Row rowKey={matchKey} iterable={GetMatchups(curTypes)[matchKey]} colClass="header"
-                    header={<div className="header" style={{background:EFF_COLORS[matchKey]}} key={[matchKey, 'header'].join(' ')}>{matchKey}</div>}
                     getBg={(nVal)=>{return(types[TYPE_LOOKUP.indexOf(GetMatchups(curTypes)[matchKey][nVal])].color)}}
-                    getValue={(nVal)=>{return(GetMatchups(curTypes)[matchKey][nVal])}} innerOrder={EFF_INDEX.indexOf(matchKey)}
-                    />
+                    getValue={(nVal)=>{return(GetMatchups(curTypes)[matchKey][nVal])}} innerOrder={EFF_INDEX.indexOf(matchKey)}>
+                        <div className="header" style={{background:EFF_COLORS[matchKey]}} key={[matchKey, 'header'].join(' ')}>{matchKey}</div>
+                    </Row>
                 )
             }) : <div></div>}
         </div>
