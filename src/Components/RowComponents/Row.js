@@ -8,7 +8,6 @@
  * @param {*} props.getBg - Callback function to generate the background color of each cell
  * @param {*} props.getValue - Callback function to generate the text in each cell
  * @param {*} [props.innerOrder] - Optional order value for the flexbox
- * @param {*} [props.header] - Optional header object to pass as the first object in the row
  * @returns div flexbox object containing a list of child divs
  */
 

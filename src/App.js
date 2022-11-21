@@ -54,6 +54,13 @@ function App() {
         );
     }
 
+    /**
+     * 
+     * @param {*} props 
+     * @param {*} props.innerClass - CSS class to pass to the header
+     * @param {[Function,*]} innerOnClick - An array consisting of a callback function and argument to pass to the function 
+     * @returns Clickable div boject
+     */
     function ClickableHeader(props){
         return(
             <div className={[props.innerClass, 'clickable'].join(' ')} style={props.style} key={[props.key, 'clickable inner'].join(' ')} onClick={(e) => props.innerOnClick[0](e, props.innerOnClick[1])}>{props.children}</div>
