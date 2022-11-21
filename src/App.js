@@ -11,38 +11,38 @@ function App() {
     const DUAL_LOOKUP = {"½":{"½":"¼", "0":"0", "1":"½", "2":"1"}, "0":{"½":"0", "0":"0", "1":"0", "2":"0"}, "1":{"½":"½", "0":"0", "1":"1", "2":"2"}, "2":{"½":"1", "0":"0", "1":"2", "2":"4"}};
 
     function GetMatchups([typeA, typeB=false]) {
-    let output = {"¼":[], "½":[], "0":[], "2":[], "4":[]};
-    let typeAIndex = TYPE_LOOKUP.indexOf(typeA.name);
-    if (typeB){
-        let typeBIndex = TYPE_LOOKUP.indexOf(typeB.name);
-        for (let i=0; i<TYPE_LOOKUP.length; i++){
-        let temp = DUAL_LOOKUP[types[i].toList[typeAIndex]][types[i].toList[typeBIndex]];
-        if (temp !== "1") output[temp].push(TYPE_LOOKUP[i]);
+        let output = {"¼":[], "½":[], "0":[], "2":[], "4":[]};
+        let typeAIndex = TYPE_LOOKUP.indexOf(typeA.name);
+        if (typeB){
+            let typeBIndex = TYPE_LOOKUP.indexOf(typeB.name);
+            for (let i=0; i<TYPE_LOOKUP.length; i++){
+                let temp = DUAL_LOOKUP[types[i].toList[typeAIndex]][types[i].toList[typeBIndex]];
+                if (temp !== "1") output[temp].push(TYPE_LOOKUP[i]);
+            }
+        } else {
+            for (let i=0; i<TYPE_LOOKUP.length; i++){
+                if (types[i].toList[typeAIndex] !== "1"){
+                    output[types[i].toList[typeAIndex]].push(TYPE_LOOKUP[i]);
+                }
+            }
         }
-    } else {
-        for (let i=0; i<TYPE_LOOKUP.length; i++){
-        if (types[i].toList[typeAIndex] !== "1"){
-            output[types[i].toList[typeAIndex]].push(TYPE_LOOKUP[i]);
-        }
-        }
-    }
-    return output;
+        return output;
     }
 
     const [curTypes, setTypes] = useState([]);
 
     const handleChartClick = (event, name) => {
-    let clickedType = types[TYPE_LOOKUP.indexOf(name)];
-    if (curTypes.length === 0) setTypes([clickedType]);
-    else if (curTypes.length === 1 && curTypes[0].name !== name) setTypes([curTypes[0], clickedType]);
-    else if (curTypes[0].name !== name && curTypes[1].name !== name) setTypes([curTypes[1], clickedType]);
+        let clickedType = types[TYPE_LOOKUP.indexOf(name)];
+        if (curTypes.length === 0) setTypes([clickedType]);
+        else if (curTypes.length === 1 && curTypes[0].name !== name) setTypes([curTypes[0], clickedType]);
+        else if (curTypes[0].name !== name && curTypes[1].name !== name) setTypes([curTypes[1], clickedType]);
     }
 
     const handleDualClick = (event, type) => {
-    if (curTypes.length > 1){
-        let clickedType = curTypes.indexOf(type);
-        setTypes([curTypes[clickedType === 0 ? 1 : 0]]);
-    } else setTypes([]);
+        if (curTypes.length > 1){
+            let clickedType = curTypes.indexOf(type);
+            setTypes([curTypes[clickedType === 0 ? 1 : 0]]);
+        } else setTypes([]);
     }
 
     function ChartRow(props){
@@ -55,9 +55,9 @@ function App() {
     }
 
     function ClickableHeader(props){
-    return(
-        <div className={props.innerClass} style={props.style} key={[props.key, 'clickable inner'].join(' ')} onClick={(e) => props.innerOnClick(e)}><div style={props.innerStyle}>{props.typeName}</div></div>
-    );
+        return(
+            <div className={props.innerClass} style={props.style} key={[props.key, 'clickable inner'].join(' ')} onClick={(e) => props.innerOnClick(e)}><div style={props.innerStyle}>{props.typeName}</div></div>
+        );
     }
 
     function Chart(){
