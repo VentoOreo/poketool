@@ -33,6 +33,7 @@ function App() {
 
   const EFF_COLORS = {"¼":"OrangeRed", "½":"Red", "0":"Black", "1":"Gray", "2":"Green", "4":"CornflowerBlue"};
   const TYPE_LOOKUP = ["Normal", "Fire", "Water", "Grass", "Electric", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"]
+  const EFF_INDEX = ["¼", "½", "0", "1", "2", "4"];
   const DUAL_LOOKUP = {"½":{"½":"¼", "0":"0", "1":"½", "2":"1"}, "0":{"½":"0", "0":"0", "1":"0", "2":"0"}, "1":{"½":"½", "0":"0", "1":"1", "2":"2"}, "2":{"½":"1", "0":"0", "1":"2", "2":"4"}};
 
   function GetMatchups([typeA, typeB=false]) {
@@ -92,15 +93,15 @@ function App() {
           })}
         </div>)
       })}
-      <div className="grid">{curTypes.map((type) => {
+      <div className="grid" style={{textAlign:"center"}}>{curTypes.map((type) => {
           return(<div className="header" style={{backgroundColor:type.color}} key={[type.name, 'bot'].join(' ')} onClick={((e)=>handleDualClick(e, type))}>{type.name}</div>);
         }
       )}</div>
-      <div className="grid" style={{flexDirection:"column"}} key="MatchChart">
+      <div className="grid" style={{flexDirection:"column", textAlign:"center"}} key="MatchChart">
         {curTypes.length > 0 ? Object.keys(GetMatchups(curTypes)).map(matchKey => {
           if (GetMatchups(curTypes)[matchKey].length > 0) 
           return(
-          <div className="grid" key={matchKey}>
+          <div className="grid" key={matchKey} style={{order:EFF_INDEX.indexOf(matchKey)}}>
             <div className="header" style={{background:EFF_COLORS[matchKey]}} key={[matchKey, 'header'].join(' ')}>{matchKey}</div>
             {GetMatchups(curTypes)[matchKey].map(tempType => {
               return <div className="header" style={{background:types[TYPE_LOOKUP.indexOf(tempType)].color}} key={[matchKey, tempType].join(' ')}>{tempType}</div>
