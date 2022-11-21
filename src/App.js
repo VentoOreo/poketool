@@ -72,8 +72,6 @@ function App() {
     } else setTypes([]);
   }
 
-  //<div className="header" key="blank row" style={{borderStyle:"none", height:"100%"}}><br/></div>
-
   return (
     <div className="App">
       <div className="grid">
@@ -96,7 +94,13 @@ function App() {
         </div>)
       })}
       <div className="grid" style={{flexDirection:"column", textAlign:"center"}} key="MatchChart">
-        <div className="header" key="blank row" style={{borderStyle:"none", height:"100%"}}><br/></div>
+        <div className="header" key="blank row 1" style={{borderStyle:"none", height:"100%"}}><br/></div>
+        <div className="grid" id="selector row">
+          {types.map((val) => {
+            return <div className="header" style={{background:val.color}} key={[val.name, 'sel'].join(' ')} onClick={((e) => handleChartClick(e, val.name))}>{val.name}</div>
+          })}
+        </div>
+        <div className="header" key="blank row 2" style={{borderStyle:"none", height:"100%"}}><br/></div>
         <div className="grid" style={{textAlign:"center"}}>{curTypes.map((type) => {
             return(<div className="header" style={{backgroundColor:type.color}} key={[type.name, 'bot'].join(' ')} onClick={((e)=>handleDualClick(e, type))}>{type.name}</div>);
           }
