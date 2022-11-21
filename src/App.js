@@ -54,9 +54,6 @@ function App() {
     return output;
   }
 
-  //console.log("Dragon and Steel matchups:");
-  //console.log(GetMatchups(steelType, dragonType));
-
   const [curTypes, setTypes] = useState([]);
 
   const handleChartClick = (event, name) => {
@@ -99,14 +96,14 @@ function App() {
           return(<div className="header" style={{backgroundColor:type.color}} key={[type.name, 'bot'].join(' ')} onClick={((e)=>handleDualClick(e, type))}>{type.name}</div>);
         }
       )}</div>
-      <div className="grid" style={{flexDirection:"column"}}>
+      <div className="grid" style={{flexDirection:"column"}} key="MatchChart">
         {curTypes.length > 0 ? Object.keys(GetMatchups(curTypes)).map(matchKey => {
           if (GetMatchups(curTypes)[matchKey].length > 0) 
           return(
-          <div className="grid">
-            <div className="header" style={{background:EFF_COLORS[matchKey]}}>{matchKey}</div>
+          <div className="grid" key={matchKey}>
+            <div className="header" style={{background:EFF_COLORS[matchKey]}} key={[matchKey, 'header'].join(' ')}>{matchKey}</div>
             {GetMatchups(curTypes)[matchKey].map(tempType => {
-              return <div className="header" style={{background:types[TYPE_LOOKUP.indexOf(tempType)].color}}>{tempType}</div>
+              return <div className="header" style={{background:types[TYPE_LOOKUP.indexOf(tempType)].color}} key={[matchKey, tempType].join(' ')}>{tempType}</div>
             })}
           </div>)
         }) : <div></div>}
