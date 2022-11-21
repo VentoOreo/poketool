@@ -22,8 +22,15 @@ body {
   font-weight: bold;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 .grid .altheader {
   flex: 1;
+  writing-mode:vertical-lr;
+  text-orientation: mixed;
+  transform: scale(-1);
   max-width: 1.5em;
   max-height: 5em;
   min-width: 1.5em;

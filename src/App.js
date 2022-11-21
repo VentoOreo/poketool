@@ -1,5 +1,6 @@
 import './App.css';
 import { useState } from 'react';
+import { type } from '@testing-library/user-event/dist/type';
 
 function App() {
 
@@ -9,7 +10,7 @@ function App() {
     this.color = color;
     this.toList = [normal, fire, water, grass, electric, ice, fighting, poison, ground, flying, psychic, bug, rock, ghost, dragon, dark, steel, fairy];
   }
-
+  
   const normalType = new Type({name:'Normal', color: "DarkKhaki", rock:"½", ghost:"0", steel:"½"});
   const fireType = new Type({name:'Fire', color:"Orange", fire:"½", water:"½", grass:"2", ice:"2", bug:"2", rock:"½", dragon:"½", steel:"2"});
   const waterType = new Type({name:'Water', color:"Blue", fire:"2", water:"½", grass:"½", ground:"2", rock:"2", dragon:"½"});
@@ -58,18 +59,43 @@ function App() {
   const [curTypes, setTypes] = useState([]);
 
   const handleChartClick = (event, name) => {
-    //console.log(name);
     let clickedType = types[TYPE_LOOKUP.indexOf(name)];
-    if (curTypes.length == 0) setTypes([clickedType]);
-    else if (curTypes.length == 1 && curTypes[0].name !== name) setTypes([curTypes[0], clickedType]);
+    if (curTypes.length === 0) setTypes([clickedType]);
+    else if (curTypes.length === 1 && curTypes[0].name !== name) setTypes([curTypes[0], clickedType]);
     else if (curTypes[0].name !== name && curTypes[1].name !== name) setTypes([curTypes[1], clickedType]);
   }
 
   const handleDualClick = (event, type) => {
     if (curTypes.length > 1){
       let clickedType = curTypes.indexOf(type);
-      setTypes([curTypes[clickedType == 0 ? 1 : 0]]);
+      setTypes([curTypes[clickedType === 0 ? 1 : 0]]);
     } else setTypes([]);
+  }
+
+  function Row(props){
+    return(<div className="grid" key={props.rowKey}>
+      {props.header}
+      {Object.keys(props.iterable).map((nVal) => {
+        return(
+          <div className={props.colClass} style={{background:props.getBg(nVal)}} key={[props.rowKey, nVal].join(' ')}>{props.getValue(nVal)}</div>
+        )
+      })}
+    </div>);
+  }
+
+  function ChartRow(props){
+    return(
+    <Row header={props.header} iterable = {props.typing.toList} colClass="col"
+      getBg={(nVal) => {return (EFF_COLORS[props.typing.toList[nVal]])}}
+      key={props.key} rowKey={[props.key, 'inner'].join(' ')}
+      getValue={(nVal) => {return (props.typing.toList[nVal])}}
+    />);
+  }
+
+  function ClickableHeader(props){
+    return(
+      <div className={props.innerClass} style={props.style} key={[props.key, 'clickable inner'].join(' ')} onClick={(e) => props.innerOnClick(e)}><div style={props.innerStyle}>{props.typeName}</div></div>
+    );
   }
 
   return (
@@ -80,40 +106,32 @@ function App() {
           <div className="header" style={{textAlign:"left", borderStyle:"none"}} key="Attacker">Attacker</div>
         </div>
         {types.map((val) => {
-          return(<div className="altheader" style={{background:val.color, writingMode:'vertical-lr', textOrientation:'mixed', transform:'scale(-1)', cursor:"pointer"}} key={[val.name, 'Inverted'].join(' ')} onClick={((e) => handleChartClick(e, val.name))}><div style={{paddingTop:"2px"}}>{val.name}</div></div>)
+          return(<ClickableHeader innerClass="altheader clickable" style={{background:val.color}} key={[val.name, 'Inverted'].join(' ')} typeName={val.name} innerStyle={{paddingTop:"2px"}} innerOnClick={((e) => handleChartClick(e, val.name))}/>)
         })}
       </div>
       {types.map((val) => {
-        return(<div className="grid" key={val.name}>
-          <div className="header" style={{background:val.color, cursor:"pointer"}} key={val.name} onClick={((e) => handleChartClick(e, val.name))}><div style={{paddingRight:"2px"}}>{val.name}</div></div>
-          {Object.keys(val.toList).map((nVal) => {
-            return(
-              <div className="col" style={{background:EFF_COLORS[val.toList[nVal]]}} key={[val.name,nVal].join('')}>{val.toList[nVal]}</div>
-            )
-          })}
-        </div>)
+        return (<ChartRow typing = {val} header={
+          <ClickableHeader innerClass="header clickable" style={{background:val.color}} key={[val.name, 'side'].join(' ')} typeName={val.name} innerStyle={{paddingRight:"2px"}} innerOnClick={((e) => handleChartClick(e, val.name))}/>
+        }/>)
       })}
       <div className="grid" style={{flexDirection:"column", textAlign:"center"}} key="MatchChart">
         <div className="header" key="blank row 1" style={{borderStyle:"none", height:"100%"}}><br/></div>
         <div className="grid" id="selector row">
-          {types.map((val) => {
-            return <div className="header" style={{background:val.color, cursor:"pointer"}} key={[val.name, 'sel'].join(' ')} onClick={((e) => handleChartClick(e, val.name))}>{val.name}</div>
-          })}
+          {types.map((val) => {return <ClickableHeader innerClass="header clickable" style={{background:val.color}} key={[val.name, 'sel'].join(' ')} typeName={val.name} innerStyle={{}} innerOnClick={((e) => handleChartClick(e, val.name))}/>})}
         </div>
         <div className="header" key="blank row 2" style={{borderStyle:"none", height:"100%"}}><br/></div>
-        <div className="grid" style={{textAlign:"center"}}>{curTypes.map((type) => {
-            return(<div className="header" style={{backgroundColor:type.color, cursor:"pointer"}} key={[type.name, 'bot'].join(' ')} onClick={((e)=>handleDualClick(e, type))}>{type.name}</div>);
-          }
-        )}</div>
+        <div className="grid" style={{textAlign:"center"}}>
+          {curTypes.map((type) => {return(<ClickableHeader innerClass="header clickable" style={{background:type.color}} key={[type.name, 'bot'].join(' ')} typeName = {type.name} innerOnClick={((e)=>handleDualClick(e, type))}/>);})}
+        </div>
         {curTypes.length > 0 ? Object.keys(GetMatchups(curTypes)).map(matchKey => {
           if (GetMatchups(curTypes)[matchKey].length > 0) 
           return(
-          <div className="grid" key={matchKey} style={{order:EFF_INDEX.indexOf(matchKey)}}>
-            <div className="header" style={{background:EFF_COLORS[matchKey]}} key={[matchKey, 'header'].join(' ')}>{matchKey}</div>
-            {GetMatchups(curTypes)[matchKey].map(tempType => {
-              return <div className="header" style={{background:types[TYPE_LOOKUP.indexOf(tempType)].color}} key={[matchKey, tempType].join(' ')}>{tempType}</div>
-            })}
-          </div>)
+            <Row rowKey={matchKey} iterable={GetMatchups(curTypes)[matchKey]} colClass="header"
+              header={<div className="header" style={{background:EFF_COLORS[matchKey]}} key={[matchKey, 'header'].join(' ')}>{matchKey}</div>}
+              getBg={(nVal)=>{return(types[TYPE_LOOKUP.indexOf(GetMatchups(curTypes)[matchKey][nVal])].color)}}
+              getValue={(nVal)=>{return(GetMatchups(curTypes)[matchKey][nVal])}}
+            />
+          )
         }) : <div></div>}
       </div>
     </div>
