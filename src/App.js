@@ -80,12 +80,12 @@ function App() {
           <div className="header" style={{textAlign:"left", borderStyle:"none"}} key="Attacker">Attacker</div>
         </div>
         {types.map((val) => {
-          return(<div className="altheader" style={{background:val.color, writingMode:'vertical-lr', textOrientation:'mixed', transform:'scale(-1)'}} key={[val.name, 'Inverted'].join(' ')} onClick={((e) => handleChartClick(e, val.name))}><div style={{paddingTop:"2px"}}>{val.name}</div></div>)
+          return(<div className="altheader" style={{background:val.color, writingMode:'vertical-lr', textOrientation:'mixed', transform:'scale(-1)', cursor:"pointer"}} key={[val.name, 'Inverted'].join(' ')} onClick={((e) => handleChartClick(e, val.name))}><div style={{paddingTop:"2px"}}>{val.name}</div></div>)
         })}
       </div>
       {types.map((val) => {
         return(<div className="grid" key={val.name}>
-          <div className="header" style={{background:val.color}} key={val.name} onClick={((e) => handleChartClick(e, val.name))}><div style={{paddingRight:"2px"}}>{val.name}</div></div>
+          <div className="header" style={{background:val.color, cursor:"pointer"}} key={val.name} onClick={((e) => handleChartClick(e, val.name))}><div style={{paddingRight:"2px"}}>{val.name}</div></div>
           {Object.keys(val.toList).map((nVal) => {
             return(
               <div className="col" style={{background:EFF_COLORS[val.toList[nVal]]}} key={[val.name,nVal].join('')}>{val.toList[nVal]}</div>
@@ -97,12 +97,12 @@ function App() {
         <div className="header" key="blank row 1" style={{borderStyle:"none", height:"100%"}}><br/></div>
         <div className="grid" id="selector row">
           {types.map((val) => {
-            return <div className="header" style={{background:val.color}} key={[val.name, 'sel'].join(' ')} onClick={((e) => handleChartClick(e, val.name))}>{val.name}</div>
+            return <div className="header" style={{background:val.color, cursor:"pointer"}} key={[val.name, 'sel'].join(' ')} onClick={((e) => handleChartClick(e, val.name))}>{val.name}</div>
           })}
         </div>
         <div className="header" key="blank row 2" style={{borderStyle:"none", height:"100%"}}><br/></div>
         <div className="grid" style={{textAlign:"center"}}>{curTypes.map((type) => {
-            return(<div className="header" style={{backgroundColor:type.color}} key={[type.name, 'bot'].join(' ')} onClick={((e)=>handleDualClick(e, type))}>{type.name}</div>);
+            return(<div className="header" style={{backgroundColor:type.color, cursor:"pointer"}} key={[type.name, 'bot'].join(' ')} onClick={((e)=>handleDualClick(e, type))}>{type.name}</div>);
           }
         )}</div>
         {curTypes.length > 0 ? Object.keys(GetMatchups(curTypes)).map(matchKey => {
