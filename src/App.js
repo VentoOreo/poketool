@@ -56,7 +56,7 @@ function App() {
 
     function ClickableHeader(props){
         return(
-            <div className={props.innerClass} style={props.style} key={[props.key, 'clickable inner'].join(' ')} onClick={(e) => props.innerOnClick(e)}><div style={props.innerStyle}>{props.typeName}</div></div>
+            <div className={[props.innerClass, 'clickable'].join(' ')} style={props.style} key={[props.key, 'clickable inner'].join(' ')} onClick={(e) => props.innerOnClick[0](e, props.innerOnClick[1])}>{props.children}</div>
         );
     }
 
@@ -69,12 +69,16 @@ function App() {
                         <div className="header" style={{textAlign:"left", borderStyle:"none"}} key="Attacker">Attacker</div>
                     </div>
                     {types.map((val) => {
-                        return(<ClickableHeader innerClass="altheader clickable" style={{background:val.color}} key={[val.name, 'Inverted'].join(' ')} typeName={val.name} innerStyle={{paddingTop:"2px"}} innerOnClick={((e) => handleChartClick(e, val.name))}/>)
+                        return(<ClickableHeader innerClass="altheader" style={{background:val.color}} key={[val.name, 'Inverted'].join(' ')} innerOnClick={[handleChartClick, val.name]}>
+                            <div style={{paddingTop:"2px"}}>{val.name}</div>
+                        </ClickableHeader>)
                     })}
                 </div>
                 {types.map((val) => {
                     return (<ChartRow typing = {val}>
-                        <ClickableHeader innerClass="header clickable" style={{background:val.color}} key={[val.name, 'side'].join(' ')} typeName={val.name} innerStyle={{paddingRight:"2px"}} innerOnClick={((e) => handleChartClick(e, val.name))}/>
+                        <ClickableHeader innerClass="header" style={{background:val.color}} key={[val.name, 'side'].join(' ')} innerOnClick={[handleChartClick, val.name]}>
+                            <div style={{paddingRight:"2px"}}>{val.name}</div>
+                        </ClickableHeader>
                     </ChartRow>)
                 })}
             </div>
@@ -86,12 +90,16 @@ function App() {
             <Chart/>  
             <div className="grid" style={{flexDirection:"column", textAlign:"center"}} key="MatchChart">
                 <div className="header" key="blank row 1" style={{borderStyle:"none", height:"100%"}}><br/></div>
-                <div className="grid" id="selector row">
-                    {types.map((val) => {return <ClickableHeader innerClass="header clickable" style={{background:val.color}} key={[val.name, 'sel'].join(' ')} typeName={val.name} innerStyle={{}} innerOnClick={((e) => handleChartClick(e, val.name))}/>})}
+                <div className="grid" key="selector row">
+                    {types.map((val) => {return <ClickableHeader innerClass="header" style={{background:val.color}} key={[val.name, 'sel'].join(' ')} innerOnClick={[handleChartClick, val.name]}>
+                        <div>{val.name}</div>
+                    </ClickableHeader>})}
                 </div>
                 <div className="header" key="blank row 2" style={{borderStyle:"none", height:"100%"}}><br/></div>
                 <div className="grid" style={{textAlign:"center"}}>
-                    {curTypes.map((type) => {return(<ClickableHeader innerClass="header clickable" style={{background:type.color}} key={[type.name, 'bot'].join(' ')} typeName = {type.name} innerOnClick={((e)=>handleDualClick(e, type))}/>);})}
+                    {curTypes.map((type) => {return(<ClickableHeader innerClass="header" style={{background:type.color}} key={[type.name, 'bot'].join(' ')} innerOnClick={[handleDualClick, type]}>
+                        <div>{type.name}</div>
+                    </ClickableHeader>);})}
                 </div>
                 {curTypes.length > 0 ? Object.keys(GetMatchups(curTypes)).map(matchKey => {
                 if (GetMatchups(curTypes)[matchKey].length > 0) 
