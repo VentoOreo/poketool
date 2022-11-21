@@ -1,6 +1,7 @@
 import './App.css';
 import { useState } from 'react';
 import { types } from './type-list';
+import  Row  from './Components/RowComponents/Row';
 
 function App() {
 
@@ -44,24 +45,14 @@ function App() {
     } else setTypes([]);
   }
 
-  function Row(props){
-    return(<div className="grid" key={props.rowKey} style={{order:(props.innerOrder? props.innerOrder : 1)}}>
-      {props.header}
-      {Object.keys(props.iterable).map((nVal) => {
-        return(
-          <div className={props.colClass} style={{background:props.getBg(nVal)}} key={[props.rowKey, nVal].join(' ')}>{props.getValue(nVal)}</div>
-        )
-      })}
-    </div>);
-  }
-
   function ChartRow(props){
     return(
-    <Row header={props.header} iterable = {props.typing.toList} colClass="col"
-      getBg={(nVal) => {return (EFF_COLORS[props.typing.toList[nVal]])}}
-      key={props.key} rowKey={[props.key, 'inner'].join(' ')}
-      getValue={(nVal) => {return (props.typing.toList[nVal])}}
-    />);
+        <Row header={props.header} iterable = {props.typing.toList} colClass="col"
+            getBg={(nVal) => {return (EFF_COLORS[props.typing.toList[nVal]])}}
+            key={props.key} rowKey={[props.key, 'inner'].join(' ')}
+            getValue={(nVal) => {return (props.typing.toList[nVal])}}
+        />
+    );
   }
 
   function ClickableHeader(props){
