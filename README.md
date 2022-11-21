@@ -4,7 +4,7 @@ A tool I made to check type matchups for individual and dual typings. Live versi
 
 # Usage
 
-This site's most basic functionality is to server as a quick reference for Pokemon type matchups.
-Additionally, clicking on the type names on the chart or on the row below will allow you to view a specific type's weaknesses.
-Clicking on a second type will show you the weaknesses of that dual-type.
-Clicking on the types selected will remove them from the view.
+This site's most basic functionality is to server as a quick reference for Pokemon type matchups. <br>
+Additionally, clicking on the type names on the chart or on the row below will allow you to view a specific type's weaknesses. <br>
+Clicking on a second type will show you the weaknesses of that dual-type. <br>
+Clicking on the types selected will remove them from the view. <br>
