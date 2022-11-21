@@ -8,6 +8,7 @@
  * @param {*} props.getBg - Callback function to generate the background color of each cell
  * @param {*} props.getValue - Callback function to generate the text in each cell
  * @param {*} [props.innerOrder] - Optional order value for the flexbox
+ * @param {*} [props.colProps] - Optional props to pass to each cell
  * @returns div flexbox object containing a list of child divs
  */
 
@@ -17,7 +18,7 @@ function Row(props){
       {props.children}
       {Object.keys(props.iterable).map((nVal) => {
         return(
-          <ColContainer className={props.colClass} style={{background:props.getBg(nVal)}} key={[props.rowKey, nVal].join(' ')}>{props.getValue(nVal)}</ColContainer>
+          <ColContainer className={props.colClass} style={props.colProps? {} : {background:props.getBg(nVal)}} key={[props.rowKey, nVal].join(' ')} {...props.colProps}>{props.getValue(nVal)}</ColContainer>
         )
       })}
     </div>);
