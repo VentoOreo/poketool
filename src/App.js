@@ -31,7 +31,7 @@ function App() {
 
   const types = [normalType, fireType, waterType, grassType, elecType, iceType, fightType, poisType, groundType, flyType, psyType, bugType, rockType, ghostType, dragonType, darkType, steelType, fairyType];
 
-  const EFF_COLORS = {"¼":"OrangeRed", "½":"Red", "0":"Black", "1":"Gray", "2":"Green", "4":"CornflowerBlue"};
+  const EFF_COLORS = {"¼":"Red", "½":"OrangeRed", "0":"Black", "1":"Gray", "2":"Green", "4":"CornflowerBlue"};
   const TYPE_LOOKUP = ["Normal", "Fire", "Water", "Grass", "Electric", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"]
   const EFF_INDEX = ["¼", "½", "0", "1", "2", "4"];
   const DUAL_LOOKUP = {"½":{"½":"¼", "0":"0", "1":"½", "2":"1"}, "0":{"½":"0", "0":"0", "1":"0", "2":"0"}, "1":{"½":"½", "0":"0", "1":"1", "2":"2"}, "2":{"½":"1", "0":"0", "1":"2", "2":"4"}};
