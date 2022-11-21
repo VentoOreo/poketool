@@ -73,7 +73,7 @@ function App() {
   }
 
   function Row(props){
-    return(<div className="grid" key={props.rowKey}>
+    return(<div className="grid" key={props.rowKey} style={{order:(props.innerOrder? props.innerOrder : 1)}}>
       {props.header}
       {Object.keys(props.iterable).map((nVal) => {
         return(
@@ -129,7 +129,7 @@ function App() {
             <Row rowKey={matchKey} iterable={GetMatchups(curTypes)[matchKey]} colClass="header"
               header={<div className="header" style={{background:EFF_COLORS[matchKey]}} key={[matchKey, 'header'].join(' ')}>{matchKey}</div>}
               getBg={(nVal)=>{return(types[TYPE_LOOKUP.indexOf(GetMatchups(curTypes)[matchKey][nVal])].color)}}
-              getValue={(nVal)=>{return(GetMatchups(curTypes)[matchKey][nVal])}}
+              getValue={(nVal)=>{return(GetMatchups(curTypes)[matchKey][nVal])}} innerOrder={EFF_INDEX.indexOf(matchKey)}
             />
           )
         }) : <div></div>}
