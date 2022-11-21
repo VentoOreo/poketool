@@ -1,6 +1,7 @@
 /**
  * 
  * @param {*} props 
+ * @param {*} props.colContainer - Container element type for each item
  * @param {*} props.rowKey - Unique key for each item
  * @param {*} props.iterable - Iterable object to pass to the map function
  * @param {*} props.colClass - The CSS class for each cell
@@ -12,11 +13,12 @@
  */
 
 function Row(props){
+    const ColContainer = props.colContainer;
     return(<div className="grid" key={props.rowKey} style={{order:(props.innerOrder? props.innerOrder : 1)}}>
       {props.children}
       {Object.keys(props.iterable).map((nVal) => {
         return(
-          <div className={props.colClass} style={{background:props.getBg(nVal)}} key={[props.rowKey, nVal].join(' ')}>{props.getValue(nVal)}</div>
+          <ColContainer className={props.colClass} style={{background:props.getBg(nVal)}} key={[props.rowKey, nVal].join(' ')}>{props.getValue(nVal)}</ColContainer>
         )
       })}
     </div>);

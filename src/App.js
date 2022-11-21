@@ -48,7 +48,7 @@ function App() {
     function ChartRow(props){
         return(
             <Row iterable = {props.typing.toList} colClass="col" getBg={(nVal) => {return (EFF_COLORS[props.typing.toList[nVal]])}}
-                key={props.key} rowKey={[props.key, 'inner'].join(' ')} getValue={(nVal) => {return (props.typing.toList[nVal])}}>
+                key={props.key} rowKey={[props.key, 'inner'].join(' ')} getValue={(nVal) => {return (props.typing.toList[nVal])}} colContainer="div">
                     {props.children}
             </Row>
         );
@@ -104,7 +104,7 @@ function App() {
                 {curTypes.length > 0 ? Object.keys(GetMatchups(curTypes)).map(matchKey => {
                 if (GetMatchups(curTypes)[matchKey].length > 0) 
                     return(
-                        <Row rowKey={matchKey} iterable={GetMatchups(curTypes)[matchKey]} colClass="header"
+                        <Row rowKey={matchKey} iterable={GetMatchups(curTypes)[matchKey]} colClass="header" colContainer = "div"
                         getBg={(nVal)=>{return(types[TYPE_LOOKUP.indexOf(GetMatchups(curTypes)[matchKey][nVal])].color)}}
                         getValue={(nVal)=>{return(GetMatchups(curTypes)[matchKey][nVal])}} innerOrder={EFF_INDEX.indexOf(matchKey)}>
                             <div className="header" style={{background:EFF_COLORS[matchKey]}} key={[matchKey, 'header'].join(' ')}>{matchKey}</div>
