@@ -13,6 +13,7 @@ function App() {
     
     const [curTypes, setTypes] = useState([]);
     const [activeTab, setTab] = useState(TABS[0]);
+    const [curOffType, setOffType] = useState({});
 
     function GetMatchups([typeA, typeB=false]) {
         let output = {"¼":[], "½":[], "0":[], "2":[], "4":[]};
@@ -33,11 +34,23 @@ function App() {
         return output;
     }
 
+    function GetOffMatchups(type){
+        let output = {"¼":[], "½":[], "0":[], "2":[], "4":[]};
+        for (let i=0;i<TYPE_LOOKUP.length;i++){
+            if(type.toList[i] !== "1") output[type.toList[i]].push(TYPE_LOOKUP[i]);
+        }
+        return output;
+    }
+
     const handleChartClick = (event, name) => {
         let clickedType = types[TYPE_LOOKUP.indexOf(name)];
-        if (curTypes.length === 0) setTypes([clickedType]);
-        else if (curTypes.length === 1 && curTypes[0].name !== name) setTypes([curTypes[0], clickedType]);
-        else if (curTypes[0].name !== name && curTypes[1].name !== name) setTypes([curTypes[1], clickedType]);
+        if(activeTab === "defense"){
+            if (curTypes.length === 0) setTypes([clickedType]);
+            else if (curTypes.length === 1 && curTypes[0].name !== name) setTypes([curTypes[0], clickedType]);
+            else if (curTypes[0].name !== name && curTypes[1].name !== name) setTypes([curTypes[1], clickedType]);
+        } else{
+            if(clickedType!==curOffType)setOffType(clickedType);
+        }
     }
 
     const handleDualClick = (event, type) => {
@@ -45,6 +58,14 @@ function App() {
             let clickedType = curTypes.indexOf(type);
             setTypes([curTypes[clickedType === 0 ? 1 : 0]]);
         } else setTypes([]);
+    }
+
+    const handleTabClick = (event, tab) => {
+        if(activeTab!==tab) setTab(TABS[TABS[0]===tab?0:1]);
+    }
+
+    const handleOffClick = (event, opt) => {
+        setOffType({});
     }
 
     function ChartRow(props){
@@ -95,16 +116,17 @@ function App() {
     }
 
     function DefenseCalculator(){
-        return(<div className="grid" style={{flexDirection:"column"}}>
+        return(<div className="grid white-border" style={{flexDirection:"column"}}>
             <div className="grid" style={{textAlign:"center"}}>
                 {curTypes.map((type) => {return(<ClickableHeader innerClass="header" style={{background:type.color}} key={[type.name, 'bot'].join(' ')} innerOnClick={[handleDualClick, type]}>
                     <div>{type.name}</div>
                 </ClickableHeader>);})}
             </div>
+            <hr className={curTypes.length>0?"":"hide"}></hr>
             {curTypes.length > 0 ? Object.keys(GetMatchups(curTypes)).map(matchKey => {
             if (GetMatchups(curTypes)[matchKey].length > 0) 
                 {
-                    let curEff=GetMatchups(curTypes)[matchKey];
+                    let curEff = GetMatchups(curTypes)[matchKey];
                     return(
                         <Row rowKey={matchKey} iterable={curEff} colClass="header" colContainer = "div"
                             getBg={(nVal)=>{return(types[TYPE_LOOKUP.indexOf(curEff[nVal])].color)}}
@@ -114,6 +136,26 @@ function App() {
                 );}
             }) : <div></div>}
         </div>);
+    }
+
+    function OffenseCalculator(){
+        return(<div className="grid white-border" style={{flexDirection:"column"}}>
+            <ClickableHeader innerClass="header" style={{background:curOffType.color}} innerOnClick={[handleOffClick,{}]}>{curOffType.name}</ClickableHeader>
+            <hr className={Object.keys(curOffType).length>0?"":"hide"}></hr>
+            {Object.keys(curOffType).length === 0 ? <div></div> : Object.keys(GetOffMatchups(curOffType)).map((cur) => {
+                let curEff = GetOffMatchups(curOffType)[cur];
+                if (curEff.length > 0){return(
+                    <Row rowKey={cur} iterable={curEff} colClass="header" colContainer="div"
+                    getBg={(nVal)=>{return(types[TYPE_LOOKUP.indexOf(curEff[nVal])].color)}}
+                    getValue={(nVal)=>{return(curEff[nVal])}} innerOrder={EFF_INDEX.indexOf(cur)}>
+                        <div className="header" style={{background:EFF_COLORS[cur]}}>{cur}</div>
+                    </Row>);}
+            })}
+        </div>);
+    }
+
+    function Tab(props){
+        return(<ClickableHeader innerClass={["tab", props.addClassName].join(' ')} innerOnClick={[handleTabClick, props.tabLabel]}>{props.children}</ClickableHeader>);
     }
 
     return (
@@ -127,7 +169,9 @@ function App() {
                     </ClickableHeader>})}
                 </div>
                 <div className="header" key="blank row 2" style={{borderStyle:"none", height:"100%"}}><br/></div>
-                <DefenseCalculator/>
+                <div className="header" key="blank row 3" style={{borderStyle:"none", height:"100%"}}><br/></div>
+                <div className="grid"><Tab tabLabel="defense" addClassName={("defense"===activeTab ? "active" : "")}>Defenses</Tab> <Tab tabLabel="offense" addClassName={("offense"===activeTab ? "active" : "")}>Offense</Tab></div>
+                {activeTab==="offense"? <OffenseCalculator/>:<DefenseCalculator/>}
             </div>    
         </div>               
     );

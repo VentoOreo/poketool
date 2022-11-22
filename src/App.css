@@ -2,8 +2,51 @@ body {
   background-color: #303030;
 }
 
+hr {
+  width:100%
+}
+
+.hide {
+  display:none;
+}
+
 .App {
   text-align: right;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:empty{
+  display: none;
+}
+
+.tab {
+  flex: 1;
+  background:#303030;
+  color:#eee;
+  min-width:10em;
+  max-width:10em;
+  max-height: 1.5em;
+  min-height: 1.5em;
+  border-style:solid;
+  border-radius:10px;
+  border-color:white;
+  border-width:2px;
+  align-items: center;
+  justify-items: center;
+}
+
+.active {
+  background-color:#606060;
+}
+
+.white-border {
+  border-style:solid;
+  border-color:white;
+  border-width:1px;
+  border-radius:5px;
 }
 
 .grid {
@@ -20,10 +63,6 @@ body {
   border-color: black;
   border-radius: 5px;
   font-weight: bold;
-}
-
-.clickable {
-  cursor: pointer;
 }
 
 .grid .altheader {
