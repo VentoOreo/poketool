@@ -14,7 +14,7 @@
 
 function Row(props){
     const ColContainer = props.colContainer;
-    return(<div className="grid" key={props.rowKey} style={{order:(props.innerOrder? props.innerOrder : 1)}}>
+    return(<div className="grid" key={props.rowKey} style={{order:props.innerOrder}}>
       {props.children}
       {Object.keys(props.iterable).map((nVal) => {
         return(

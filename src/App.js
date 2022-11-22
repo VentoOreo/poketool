@@ -9,6 +9,10 @@ function App() {
     const TYPE_LOOKUP = ["Normal", "Fire", "Water", "Grass", "Electric", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"]
     const EFF_INDEX = ["¼", "½", "0", "1", "2", "4"];
     const DUAL_LOOKUP = {"½":{"½":"¼", "0":"0", "1":"½", "2":"1"}, "0":{"½":"0", "0":"0", "1":"0", "2":"0"}, "1":{"½":"½", "0":"0", "1":"1", "2":"2"}, "2":{"½":"1", "0":"0", "1":"2", "2":"4"}};
+    const TABS = ['defense', 'offense'];
+    
+    const [curTypes, setTypes] = useState([]);
+    const [activeTab, setTab] = useState(TABS[0]);
 
     function GetMatchups([typeA, typeB=false]) {
         let output = {"¼":[], "½":[], "0":[], "2":[], "4":[]};
@@ -28,8 +32,6 @@ function App() {
         }
         return output;
     }
-
-    const [curTypes, setTypes] = useState([]);
 
     const handleChartClick = (event, name) => {
         let clickedType = types[TYPE_LOOKUP.indexOf(name)];
@@ -92,6 +94,26 @@ function App() {
         );
     }
 
+    function DefenseCalculator(){
+        return(<div className="grid" style={{flexDirection:"column"}}>
+            <div className="grid" style={{textAlign:"center"}}>
+                {curTypes.map((type) => {return(<ClickableHeader innerClass="header" style={{background:type.color}} key={[type.name, 'bot'].join(' ')} innerOnClick={[handleDualClick, type]}>
+                    <div>{type.name}</div>
+                </ClickableHeader>);})}
+            </div>
+            {curTypes.length > 0 ? Object.keys(GetMatchups(curTypes)).map(matchKey => {
+            if (GetMatchups(curTypes)[matchKey].length > 0) 
+                return(
+                    <Row rowKey={matchKey} iterable={GetMatchups(curTypes)[matchKey]} colClass="header" colContainer = "div"
+                        getBg={(nVal)=>{return(types[TYPE_LOOKUP.indexOf(GetMatchups(curTypes)[matchKey][nVal])].color)}}
+                        getValue={(nVal)=>{return(GetMatchups(curTypes)[matchKey][nVal])}} innerOrder={EFF_INDEX.indexOf(matchKey)}>
+                        <div className="header" style={{background:EFF_COLORS[matchKey]}} key={[matchKey, 'header'].join(' ')}>{matchKey}</div>
+                    </Row>
+                )
+            }) : <div></div>}
+        </div>);
+    }
+
     return (
         <div className="App"> 
             <Chart/>  
@@ -103,23 +125,9 @@ function App() {
                     </ClickableHeader>})}
                 </div>
                 <div className="header" key="blank row 2" style={{borderStyle:"none", height:"100%"}}><br/></div>
-                <div className="grid" style={{textAlign:"center"}}>
-                    {curTypes.map((type) => {return(<ClickableHeader innerClass="header" style={{background:type.color}} key={[type.name, 'bot'].join(' ')} innerOnClick={[handleDualClick, type]}>
-                        <div>{type.name}</div>
-                    </ClickableHeader>);})}
-                </div>
-                {curTypes.length > 0 ? Object.keys(GetMatchups(curTypes)).map(matchKey => {
-                if (GetMatchups(curTypes)[matchKey].length > 0) 
-                    return(
-                        <Row rowKey={matchKey} iterable={GetMatchups(curTypes)[matchKey]} colClass="header" colContainer = "div"
-                        getBg={(nVal)=>{return(types[TYPE_LOOKUP.indexOf(GetMatchups(curTypes)[matchKey][nVal])].color)}}
-                        getValue={(nVal)=>{return(GetMatchups(curTypes)[matchKey][nVal])}} innerOrder={EFF_INDEX.indexOf(matchKey)}>
-                            <div className="header" style={{background:EFF_COLORS[matchKey]}} key={[matchKey, 'header'].join(' ')}>{matchKey}</div>
-                        </Row>
-                    )
-                }) : <div></div>}
-            </div>
-        </div>
+                <DefenseCalculator/>
+            </div>    
+        </div>               
     );
 }
 
