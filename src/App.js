@@ -103,13 +103,15 @@ function App() {
             </div>
             {curTypes.length > 0 ? Object.keys(GetMatchups(curTypes)).map(matchKey => {
             if (GetMatchups(curTypes)[matchKey].length > 0) 
-                return(
-                    <Row rowKey={matchKey} iterable={GetMatchups(curTypes)[matchKey]} colClass="header" colContainer = "div"
-                        getBg={(nVal)=>{return(types[TYPE_LOOKUP.indexOf(GetMatchups(curTypes)[matchKey][nVal])].color)}}
-                        getValue={(nVal)=>{return(GetMatchups(curTypes)[matchKey][nVal])}} innerOrder={EFF_INDEX.indexOf(matchKey)}>
-                        <div className="header" style={{background:EFF_COLORS[matchKey]}} key={[matchKey, 'header'].join(' ')}>{matchKey}</div>
-                    </Row>
-                )
+                {
+                    let curEff=GetMatchups(curTypes)[matchKey];
+                    return(
+                        <Row rowKey={matchKey} iterable={curEff} colClass="header" colContainer = "div"
+                            getBg={(nVal)=>{return(types[TYPE_LOOKUP.indexOf(curEff[nVal])].color)}}
+                            getValue={(nVal)=>{return(curEff[nVal])}} innerOrder={EFF_INDEX.indexOf(matchKey)}>
+                            <div className="header" style={{background:EFF_COLORS[matchKey]}} key={[matchKey, 'header'].join(' ')}>{matchKey}</div>
+                        </Row>
+                );}
             }) : <div></div>}
         </div>);
     }
