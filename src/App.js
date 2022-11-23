@@ -116,13 +116,13 @@ function App() {
     }
 
     function DefenseCalculator(){
-        return(<div className="grid white-border" style={{flexDirection:"column"}}>
+        return(<div className={Object.keys(curTypes).length===0?"hide":"grid white-border"} style={{flexDirection:"column"}}>
             <div className="grid" style={{textAlign:"center"}}>
                 {curTypes.map((type) => {return(<ClickableHeader innerClass="header" style={{background:type.color}} key={[type.name, 'bot'].join(' ')} innerOnClick={[handleDualClick, type]}>
                     <div>{type.name}</div>
                 </ClickableHeader>);})}
             </div>
-            <hr className={curTypes.length>0?"":"hide"}></hr>
+            <hr></hr>
             {curTypes.length > 0 ? Object.keys(GetMatchups(curTypes)).map(matchKey => {
             if (GetMatchups(curTypes)[matchKey].length > 0) 
                 {
@@ -139,9 +139,9 @@ function App() {
     }
 
     function OffenseCalculator(){
-        return(<div className="grid white-border" style={{flexDirection:"column"}}>
+        return(<div className={Object.keys(curOffType).length===0?"hide":"grid white-border"} style={{flexDirection:"column"}}>
             <ClickableHeader innerClass="header" style={{background:curOffType.color}} innerOnClick={[handleOffClick,{}]}>{curOffType.name}</ClickableHeader>
-            <hr className={Object.keys(curOffType).length>0?"":"hide"}></hr>
+            <hr></hr>
             {Object.keys(curOffType).length === 0 ? <div></div> : Object.keys(GetOffMatchups(curOffType)).map((cur) => {
                 let curEff = GetOffMatchups(curOffType)[cur];
                 if (curEff.length > 0){return(
