@@ -165,7 +165,11 @@ function App() {
     }
 
     function Tab(props){
-        return(<ClickableHeader innerClass={["tab", props.addClassName].join(' ')} innerOnClick={[handleTabClick, props.tabLabel]}>{props.children}</ClickableHeader>);
+        return(
+            <ClickableHeader innerClass={["tab", props.tabLabel, (props.tabLabel===activeTab ? "active" : "")].join(' ')} innerOnClick={[handleTabClick, props.tabLabel]}>
+                {props.children}
+            </ClickableHeader>
+        );
     }
 
     return (
@@ -180,7 +184,7 @@ function App() {
                 </div>
                 <div className="header" key="blank row 2" style={{borderStyle:"none", height:"100%"}}><br/></div>
                 <div className="header" key="blank row 3" style={{borderStyle:"none", height:"100%"}}><br/></div>
-                <div className="grid"><Tab tabLabel="defense" addClassName={("defense"===activeTab ? "active" : "")}>Defenses</Tab> <Tab tabLabel="offense" addClassName={("offense"===activeTab ? "active" : "")}>Offense</Tab></div>
+                <div className="grid"><Tab tabLabel="defense">Defenses</Tab> <Tab tabLabel="offense">Offense</Tab></div>
                 {activeTab==="offense"? <OffenseCalculator/>:<DefenseCalculator/>}
             </div>    
         </div>               
