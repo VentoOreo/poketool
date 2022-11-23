@@ -133,7 +133,7 @@ function App() {
                             getValue={(nVal)=>{return(curEff[nVal])}} innerOrder={EFF_INDEX.indexOf(matchKey)}>
                             <div className="header" style={{background:EFF_COLORS[matchKey]}} key={[matchKey, 'header'].join(' ')}>{matchKey}</div>
                         </Row>
-                );}
+                );} else return <div></div>;
             }) : <div></div>}
         </div>);
     }
@@ -149,7 +149,7 @@ function App() {
                     getBg={(nVal)=>{return(types[TYPE_LOOKUP.indexOf(curEff[nVal])].color)}}
                     getValue={(nVal)=>{return(curEff[nVal])}} innerOrder={EFF_INDEX.indexOf(cur)}>
                         <div className="header" style={{background:EFF_COLORS[cur]}}>{cur}</div>
-                    </Row>);}
+                    </Row>);} else return <div></div>;
             })}
         </div>);
     }
