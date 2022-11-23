@@ -185,7 +185,7 @@ function App() {
                 <div className="header" key="blank row 2" style={{borderStyle:"none", height:"100%"}}><br/></div>
                 <div className="header" key="blank row 3" style={{borderStyle:"none", height:"100%"}}><br/></div>
                 <div className="grid"><Tab tabLabel="defense">Defenses</Tab> <Tab tabLabel="offense">Offense</Tab></div>
-                {activeTab==="offense"? <OffenseCalculator/>:<DefenseCalculator/>}
+                {{"offense":<OffenseCalculator/>,"defense":<DefenseCalculator/>}[activeTab]}
             </div>    
         </div>               
     );
