@@ -123,6 +123,10 @@ function App() {
                 </ClickableHeader>);})}
             </div>
             <hr></hr>
+            <div className="grid" style={{flexDirection:"row", alignItems:"center", gap:"0px"}}>
+                <div className="descHeader">Damage Recv'd Mult</div>
+                <div className="descHeader">Type</div>
+            </div>
             {curTypes.length > 0 ? Object.keys(GetMatchups(curTypes)).map(matchKey => {
             if (GetMatchups(curTypes)[matchKey].length > 0) 
                 {
@@ -142,7 +146,12 @@ function App() {
         return(<div className={Object.keys(curOffType).length===0?"hide":"grid white-border"} style={{flexDirection:"column"}}>
             <ClickableHeader innerClass="header" style={{background:curOffType.color}} innerOnClick={[handleOffClick,{}]}>{curOffType.name}</ClickableHeader>
             <hr></hr>
-            {Object.keys(curOffType).length === 0 ? <div></div> : Object.keys(GetOffMatchups(curOffType)).map((cur) => {
+            <div className="grid" style={{flexDirection:"row", alignItems:"center"}}>
+                <div className="descHeader">Damage Out Mult</div>
+                <div className="descHeader">Type</div>
+            </div>
+            {Object.keys(curOffType).length === 0 ? <div></div> : 
+            Object.keys(GetOffMatchups(curOffType)).map((cur) => {
                 let curEff = GetOffMatchups(curOffType)[cur];
                 if (curEff.length > 0){return(
                     <Row rowKey={cur} iterable={curEff} colClass="header" colContainer="div"
@@ -150,7 +159,8 @@ function App() {
                     getValue={(nVal)=>{return(curEff[nVal])}} innerOrder={EFF_INDEX.indexOf(cur)}>
                         <div className="header" style={{background:EFF_COLORS[cur]}}>{cur}</div>
                     </Row>);} else return <div></div>;
-            })}
+                }
+            )}
         </div>);
     }
 

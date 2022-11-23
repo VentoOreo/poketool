@@ -53,6 +53,15 @@ hr {
   display: flex;
 }
 
+.grid .descHeader {
+  flex: 1;
+  font-size:0.8em;
+  min-width:5.5em;
+  max-width:5.5em;
+  color:#eee;
+  text-align:center;
+}
+
 .grid .header {
   flex: 1;
   min-width: 4.5em;
