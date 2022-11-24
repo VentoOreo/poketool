@@ -9,11 +9,13 @@ function App() {
     const TYPE_LOOKUP = ["Normal", "Fire", "Water", "Grass", "Electric", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"]
     const EFF_INDEX = ["¼", "½", "0", "1", "2", "4"];
     const DUAL_LOOKUP = {"½":{"½":"¼", "0":"0", "1":"½", "2":"1"}, "0":{"½":"0", "0":"0", "1":"0", "2":"0"}, "1":{"½":"½", "0":"0", "1":"1", "2":"2"}, "2":{"½":"1", "0":"0", "1":"2", "2":"4"}};
-    const TABS = ['defense', 'offense'];
+    const TABS = ['defense', 'offense', 'tera'];
     
     const [curTypes, setTypes] = useState([]);
     const [activeTab, setTab] = useState(TABS[0]);
     const [curOffType, setOffType] = useState({});
+    const [curTeraOffTypes, setTeraOffTypes] = useState([]);
+    const [curTeraDefType, setTeraDefType] = useState({});
 
     function GetMatchups([typeA, typeB=false]) {
         let output = {"¼":[], "½":[], "0":[], "2":[], "4":[]};
@@ -42,30 +44,49 @@ function App() {
         return output;
     }
 
+    function GetTeraOffMatchups(types){
+        let output = {"¼":[], "½":[], "0":[], "2":[], "4":[]};
+        for (let i=0;i<TYPE_LOOKUP.length;i++){
+            for (let j=0;j<types.length;j++){
+                if (types[j].toList[i] !== "1" && !output[types[j].toList[i]].includes(TYPE_LOOKUP[i])) output[types[j].toList[i]].push(TYPE_LOOKUP[i])
+            }
+        }
+        return output;
+    }
+
     const handleChartClick = (event, name) => {
         let clickedType = types[TYPE_LOOKUP.indexOf(name)];
         if(activeTab === "defense"){
             if (curTypes.length === 0) setTypes([clickedType]);
             else if (curTypes.length === 1 && curTypes[0].name !== name) setTypes([curTypes[0], clickedType]);
-            else if (curTypes[0].name !== name && curTypes[1].name !== name) setTypes([curTypes[1], clickedType]);
-        } else{
+            else if (!curTypes.includes(clickedType)) setTypes([curTypes[1], clickedType]);
+        } else if (activeTab === "offense"){
             if(clickedType!==curOffType)setOffType(clickedType);
+        } else if (activeTab === "tera"){
+            if (curTeraOffTypes.length === 0) setTeraOffTypes([clickedType]);
+            else if (curTeraOffTypes.length < 4 && !curTeraOffTypes.includes(clickedType)) setTeraOffTypes([...curTeraOffTypes, clickedType]);
+            else if (curTeraOffTypes.length === 4 && !curTeraOffTypes.includes(clickedType)) setTeraOffTypes([...curTeraOffTypes.slice(1), clickedType]);
         }
     }
 
     const handleDualClick = (event, type) => {
-        if (curTypes.length > 1){
-            let clickedType = curTypes.indexOf(type);
-            setTypes([curTypes[clickedType === 0 ? 1 : 0]]);
-        } else setTypes([]);
+        setTypes(curTypes.filter(cur => cur !== type));
     }
 
     const handleTabClick = (event, tab) => {
-        if(activeTab!==tab) setTab(TABS[TABS[0]===tab?0:1]);
+        if(activeTab!==tab) setTab(TABS[TABS.indexOf(tab)]);
     }
 
     const handleOffClick = (event, opt) => {
         setOffType({});
+    }
+
+    const handleTeraOffClick = (event, type) => {
+        setTeraOffTypes(curTeraOffTypes.filter(cur => cur !== type));
+    }
+
+    const handleTeraDefClick = (event, type) => {
+        setTeraDefType({});
     }
 
     function ChartRow(props){
@@ -151,16 +172,47 @@ function App() {
                 <div className="descHeader">Type</div>
             </div>
             {Object.keys(curOffType).length === 0 ? <div></div> : 
-            Object.keys(GetOffMatchups(curOffType)).map((cur) => {
-                let curEff = GetOffMatchups(curOffType)[cur];
-                if (curEff.length > 0){return(
-                    <Row rowKey={cur} iterable={curEff} colClass="header" colContainer="div"
-                    getBg={(nVal)=>{return(types[TYPE_LOOKUP.indexOf(curEff[nVal])].color)}}
-                    getValue={(nVal)=>{return(curEff[nVal])}} innerOrder={EFF_INDEX.indexOf(cur)}>
-                        <div className="header" style={{background:EFF_COLORS[cur]}}>{cur}</div>
-                    </Row>);} else return <div></div>;
-                }
-            )}
+                Object.keys(GetOffMatchups(curOffType)).map((cur) => {
+                    let curEff = GetOffMatchups(curOffType)[cur];
+                    if (curEff.length > 0){return(
+                        <Row rowKey={cur} iterable={curEff} colClass="header" colContainer="div"
+                        getBg={(nVal)=>{return(types[TYPE_LOOKUP.indexOf(curEff[nVal])].color)}}
+                        getValue={(nVal)=>{return(curEff[nVal])}} innerOrder={EFF_INDEX.indexOf(cur)}>
+                            <div className="header" style={{background:EFF_COLORS[cur]}}>{cur}</div>
+                        </Row>);} else return <div></div>;
+                    }
+                )}
+        </div>);
+    }
+
+    function TeraCalculator(){
+        return(<div className={Object.keys(curTeraOffTypes).length===0?"hide":"grid white-border"} style={{flexDirection:"column"}}>
+            <div className="grid" style={{textAlign:'center'}}>
+                {curTeraOffTypes.map((type) => {return(
+                    <ClickableHeader innerClass="header" style={{background:type.color}} key={[type.name, 'teraoff'].join(' ')} innerOnClick={[handleTeraOffClick, type]}>
+                        <div>{type.name}</div>
+                    </ClickableHeader>
+                )})}
+            </div>
+            <hr></hr>
+            <div className="grid" style={{flexDirection:"row", alignItems:"center"}}>
+                <div className="descHeader">Damage Out Mult</div>
+                <div className="descHeader">Type</div>
+            </div>
+            {Object.keys(curTeraOffTypes).length === 0 ? <div></div> :
+                Object.keys(GetTeraOffMatchups(curTeraOffTypes)).map((cur) => {
+                    let curEff = GetTeraOffMatchups(curTeraOffTypes)[cur];
+                    if (curEff.length > 0) {
+                        return(
+                            <Row rowKey={cur} iterable={curEff} colClass="header" colContainer="div"
+                            getBg={(nVal)=>{return(types[TYPE_LOOKUP.indexOf(curEff[nVal])].color)}}
+                            getValue={(nVal)=>{return(curEff[nVal])}} innerOrder={EFF_INDEX.indexOf(cur)}>
+                                <div className="header" style={{background:EFF_COLORS[cur]}}>{cur}</div>
+                            </Row>
+                        );
+                    } else return <div></div>;
+                })
+            }        
         </div>);
     }
 
@@ -184,8 +236,12 @@ function App() {
                 </div>
                 <div className="header" key="blank row 2" style={{borderStyle:"none", height:"100%"}}><br/></div>
                 <div className="header" key="blank row 3" style={{borderStyle:"none", height:"100%"}}><br/></div>
-                <div className="grid"><Tab tabLabel="defense">Defenses</Tab> <Tab tabLabel="offense">Offense</Tab></div>
-                {{"offense":<OffenseCalculator/>,"defense":<DefenseCalculator/>}[activeTab]}
+                <div className="grid">
+                    <Tab tabLabel="defense">Defenses</Tab>
+                    <Tab tabLabel="offense">Offense</Tab>
+                    <Tab tabLabel="tera">Tera Battle</Tab>
+                </div>
+                {{"offense":<OffenseCalculator/>,"defense":<DefenseCalculator/>, "tera":<TeraCalculator/>}[activeTab]}
             </div>    
         </div>               
     );
