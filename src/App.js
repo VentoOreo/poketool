@@ -97,15 +97,26 @@ function App() {
             </Row>
         );
     }
-
+        
     function EffRow(props){
-        return(
-            <Row rowKey={props.cur} iterable={props.curEff} colClass="header" colContainer="div"
-            getBg={(nVal) => {return (types[TYPE_LOOKUP.indexOf(props.curEff[nVal])].color)}}
-            getValue={(nVal) => {return (props.curEff[nVal])}} innerOrder={EFF_INDEX.indexOf(props.cur)}>
-                <div className="header" style={{background:EFF_COLORS[props.cur]}}>{props.cur}</div>
-            </Row>
-        );
+        if (Object.keys(props.matchState).length > 0) {
+            return(
+                <div className="grid" style={{flexDirection:"column"}}>
+                    {Object.keys(props.matchCallback(props.matchState)).map((cur) =>{
+                        let curEff = props.matchCallback(props.matchState)[cur];
+                        if (curEff.length > 0){
+                            return(
+                                <Row rowKey={cur} iterable={curEff} colClass="header" colContainer="div"
+                                    getBg={(nVal) => {return (types[TYPE_LOOKUP.indexOf(curEff[nVal])].color)}}
+                                    getValue={(nVal) => {return (curEff[nVal])}} innerOrder={EFF_INDEX.indexOf(cur)}>
+                                        <div className="header" style={{background:EFF_COLORS[cur]}}>{cur}</div>
+                                </Row>
+                            );
+                        } else return <div></div>;
+                    })}
+                </div>
+            )} 
+        else return <div></div>;
     }
 
     /**
@@ -158,14 +169,7 @@ function App() {
                 <div className="descHeader">Damage Recv'd Mult</div>
                 <div className="descHeader">Type</div>
             </div>
-            {curTypes.length > 0 ? Object.keys(GetMatchups(curTypes)).map(matchKey => {
-            if (GetMatchups(curTypes)[matchKey].length > 0) 
-                {
-                    let curEff = GetMatchups(curTypes)[matchKey];
-                    return(
-                        <EffRow cur={matchKey} curEff={curEff}/>
-                );} else return <div></div>;
-            }) : <div></div>}
+            <EffRow matchState={curTypes} matchCallback={(type) => {return GetMatchups(type)}}/>
         </div>);
     }
 
@@ -177,14 +181,7 @@ function App() {
                 <div className="descHeader">Damage Out Mult</div>
                 <div className="descHeader">Type</div>
             </div>
-            {Object.keys(curOffType).length === 0 ? <div></div> : 
-                Object.keys(GetOffMatchups(curOffType)).map((cur) => {
-                    let curEff = GetOffMatchups(curOffType)[cur];
-                    if (curEff.length > 0){return(
-                        <EffRow cur={cur} curEff={curEff}/>
-                    );} else return <div></div>;
-                }
-            )}
+            <EffRow matchState={curOffType} matchCallback={GetOffMatchups}/>     
         </div>);
     }
 
@@ -202,16 +199,7 @@ function App() {
                 <div className="descHeader">Damage Out Mult</div>
                 <div className="descHeader">Type</div>
             </div>
-            {Object.keys(curTeraOffTypes).length === 0 ? <div></div> :
-                Object.keys(GetTeraOffMatchups(curTeraOffTypes)).map((cur) => {
-                    let curEff = GetTeraOffMatchups(curTeraOffTypes)[cur];
-                    if (curEff.length > 0) {
-                        return(
-                            <EffRow cur={cur} curEff={curEff}/>
-                        );
-                    } else return <div></div>;
-                })
-            }        
+            <EffRow matchState={curTeraOffTypes} matchCallback={GetTeraOffMatchups}/>           
         </div>);
     }
 
