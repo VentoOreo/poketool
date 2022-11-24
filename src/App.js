@@ -98,6 +98,16 @@ function App() {
         );
     }
 
+    function EffRow(props){
+        return(
+            <Row rowKey={props.cur} iterable={props.curEff} colClass="header" colContainer="div"
+            getBg={(nVal) => {return (types[TYPE_LOOKUP.indexOf(props.curEff[nVal])].color)}}
+            getValue={(nVal) => {return (props.curEff[nVal])}} innerOrder={EFF_INDEX.indexOf(props.cur)}>
+                <div className="header" style={{background:EFF_COLORS[props.cur]}}>{props.cur}</div>
+            </Row>
+        );
+    }
+
     /**
      * 
      * @param {*} props 
@@ -153,11 +163,7 @@ function App() {
                 {
                     let curEff = GetMatchups(curTypes)[matchKey];
                     return(
-                        <Row rowKey={matchKey} iterable={curEff} colClass="header" colContainer = "div"
-                            getBg={(nVal)=>{return(types[TYPE_LOOKUP.indexOf(curEff[nVal])].color)}}
-                            getValue={(nVal)=>{return(curEff[nVal])}} innerOrder={EFF_INDEX.indexOf(matchKey)}>
-                            <div className="header" style={{background:EFF_COLORS[matchKey]}} key={[matchKey, 'header'].join(' ')}>{matchKey}</div>
-                        </Row>
+                        <EffRow cur={matchKey} curEff={curEff}/>
                 );} else return <div></div>;
             }) : <div></div>}
         </div>);
@@ -175,13 +181,10 @@ function App() {
                 Object.keys(GetOffMatchups(curOffType)).map((cur) => {
                     let curEff = GetOffMatchups(curOffType)[cur];
                     if (curEff.length > 0){return(
-                        <Row rowKey={cur} iterable={curEff} colClass="header" colContainer="div"
-                        getBg={(nVal)=>{return(types[TYPE_LOOKUP.indexOf(curEff[nVal])].color)}}
-                        getValue={(nVal)=>{return(curEff[nVal])}} innerOrder={EFF_INDEX.indexOf(cur)}>
-                            <div className="header" style={{background:EFF_COLORS[cur]}}>{cur}</div>
-                        </Row>);} else return <div></div>;
-                    }
-                )}
+                        <EffRow cur={cur} curEff={curEff}/>
+                    );} else return <div></div>;
+                }
+            )}
         </div>);
     }
 
@@ -204,11 +207,7 @@ function App() {
                     let curEff = GetTeraOffMatchups(curTeraOffTypes)[cur];
                     if (curEff.length > 0) {
                         return(
-                            <Row rowKey={cur} iterable={curEff} colClass="header" colContainer="div"
-                            getBg={(nVal)=>{return(types[TYPE_LOOKUP.indexOf(curEff[nVal])].color)}}
-                            getValue={(nVal)=>{return(curEff[nVal])}} innerOrder={EFF_INDEX.indexOf(cur)}>
-                                <div className="header" style={{background:EFF_COLORS[cur]}}>{cur}</div>
-                            </Row>
+                            <EffRow cur={cur} curEff={curEff}/>
                         );
                     } else return <div></div>;
                 })
