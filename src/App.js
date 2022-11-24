@@ -165,7 +165,7 @@ function App() {
                 </ClickableHeader>);})}
             </div>
             <hr></hr>
-            <div className="grid" style={{flexDirection:"row", alignItems:"center", gap:"0px"}}>
+            <div className="grid" style={{flexDirection:"row", alignItems:"center"}}>
                 <div className="descHeader">Damage Recv'd Mult</div>
                 <div className="descHeader">Type</div>
             </div>
