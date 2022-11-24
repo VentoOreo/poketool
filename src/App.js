@@ -69,6 +69,10 @@ function App() {
         }
     }
 
+    const handleTeraChartClick = (event,name) => {
+        setTeraDefType(types[TYPE_LOOKUP.indexOf(name)]);
+    }
+
     const handleDualClick = (event, type) => {
         setTypes(curTypes.filter(cur => cur !== type));
     }
@@ -157,36 +161,60 @@ function App() {
         );
     }
 
+    function GenericCalculator(props){
+        return(<div className={Object.keys(props.matchState).length===0?"hide":"grid white-border"} style={{flexDirection:"column"}}>
+            {props.children}
+            <GenHeader innerText={props.innerText}/>
+            <EffRow matchState={props.matchState} matchCallback={(type) => {return props.matchCallback(type)}}/>
+            {props.extend}
+        </div>);
+    }
+
+    function GenHeader(props){
+        return (<div><hr></hr>
+        <div className="grid" style={{flexDirection:"row", alignItems:"center"}}>
+            <div className="descHeader">Damage {props.innerText} Mult</div>
+            <div className="descHeader">Type</div>
+        </div></div>);
+    }
+
     function DefenseCalculator(){
-        return(<div className={Object.keys(curTypes).length===0?"hide":"grid white-border"} style={{flexDirection:"column"}}>
+        return <GenericCalculator matchState={curTypes} matchCallback={GetMatchups} innerText="Recv'd">
             <div className="grid" style={{textAlign:"center"}}>
                 {curTypes.map((type) => {return(<ClickableHeader innerClass="header" style={{background:type.color}} key={[type.name, 'bot'].join(' ')} innerOnClick={[handleDualClick, type]}>
                     <div>{type.name}</div>
                 </ClickableHeader>);})}
             </div>
-            <hr></hr>
-            <div className="grid" style={{flexDirection:"row", alignItems:"center"}}>
-                <div className="descHeader">Damage Recv'd Mult</div>
-                <div className="descHeader">Type</div>
-            </div>
-            <EffRow matchState={curTypes} matchCallback={(type) => {return GetMatchups(type)}}/>
-        </div>);
+        </GenericCalculator>
     }
 
     function OffenseCalculator(){
-        return(<div className={Object.keys(curOffType).length===0?"hide":"grid white-border"} style={{flexDirection:"column"}}>
+        return(<GenericCalculator matchState={curOffType} matchCallback={GetOffMatchups} innerText="Out">
             <ClickableHeader innerClass="header" style={{background:curOffType.color}} innerOnClick={[handleOffClick,{}]}>{curOffType.name}</ClickableHeader>
+        </GenericCalculator>);
+    }
+
+    function TeraDefCalculator(){
+        return(<div>
             <hr></hr>
-            <div className="grid" style={{flexDirection:"row", alignItems:"center"}}>
-                <div className="descHeader">Damage Out Mult</div>
-                <div className="descHeader">Type</div>
+            <div className="grid" key="selector row 2">
+                {types.map((val) => {return <ClickableHeader innerClass="header" style={{background:val.color}} key={[val.name, 'sel'].join(' ')} innerOnClick={[handleTeraChartClick, val.name]}>
+                    <div>{val.name}</div>
+                </ClickableHeader>})}
             </div>
-            <EffRow matchState={curOffType} matchCallback={GetOffMatchups}/>     
+            <div className="header" key="blank row tera" style={{borderStyle:"none", height:"100%"}}><br/></div>
+            {Object.keys(curTeraDefType).length === 0 ? <div></div> :
+                <ClickableHeader innerClass="header" style={{background:curTeraDefType.color}} key="tera def" innerOnClick={[handleTeraDefClick,{}]}>
+                    <div>{curTeraDefType.name}</div>
+                </ClickableHeader>
+            }
+            <div className={Object.keys(curTeraDefType).length > 0 ? "" : "hide"}><GenHeader innerText="Recv'd"/></div>
+            <EffRow matchState={curTeraDefType} matchCallback={(type) => {return GetMatchups([type])}}/>
         </div>);
     }
 
     function TeraCalculator(){
-        return(<div className={Object.keys(curTeraOffTypes).length===0?"hide":"grid white-border"} style={{flexDirection:"column"}}>
+        return(<GenericCalculator matchState={curTeraOffTypes} matchCallback={GetTeraOffMatchups} innerText="Out" extend={<TeraDefCalculator/>}>
             <div className="grid" style={{textAlign:'center'}}>
                 {curTeraOffTypes.map((type) => {return(
                     <ClickableHeader innerClass="header" style={{background:type.color}} key={[type.name, 'teraoff'].join(' ')} innerOnClick={[handleTeraOffClick, type]}>
@@ -194,13 +222,7 @@ function App() {
                     </ClickableHeader>
                 )})}
             </div>
-            <hr></hr>
-            <div className="grid" style={{flexDirection:"row", alignItems:"center"}}>
-                <div className="descHeader">Damage Out Mult</div>
-                <div className="descHeader">Type</div>
-            </div>
-            <EffRow matchState={curTeraOffTypes} matchCallback={GetTeraOffMatchups}/>           
-        </div>);
+        </GenericCalculator>);
     }
 
     function Tab(props){
